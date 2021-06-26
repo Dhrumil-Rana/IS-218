@@ -1,3 +1,9 @@
+
+def addition(x, y):
+    a = x+y
+    return a
+
+
 class Calculator:
     result = 0
 
@@ -6,4 +12,6 @@ class Calculator:
         self.result = x
         pass
 
-
+    def add(self, a, b):
+        self.result = addition(a, b)
+        return self.result
