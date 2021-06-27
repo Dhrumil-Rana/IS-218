@@ -2,7 +2,6 @@ import unittest
 from Calculator import Calculator
 from CsvReader import CsvReader
 from pathlib import Path
-from pprint import pprint
 
 Folder_toOpen = Path("/src/testdata/")
 file_toOpen = Folder_toOpen / "Unit Test Addition.csv"
@@ -44,8 +43,8 @@ class MyTestCase1(unittest.TestCase):
         CsvReader.clear_data(self.test_data)
         test_data = CsvReader(file_for_div).data
         for row in test_data:
-            self.assertEqual(self.calculator.div(float(row['Value 1']), float(row['Value 2'])), float(row['Result']))
-            self.assertEqual(self.calculator.result, float(row['Result']))
+            self.assertEqual(self.calculator.div(round(float(row['Value 1']), 9), round(float(row['Value 2']), 9)), float(row['Result']))
+            self.assertEqual(self.calculator.result, round(float(row['Result']), 9))
 
     def test_square_method_calculator(self):
         CsvReader.clear_data(self.test_data)
@@ -58,8 +57,8 @@ class MyTestCase1(unittest.TestCase):
         CsvReader.clear_data(self.test_data)
         test_data = CsvReader(file_for_sqrt).data
         for row in test_data:
-            self.assertEqual(self.calculator.sqr_root(float(row['Value 1'])), float(row['Result']))
-            self.assertEqual(self.calculator.result, float(row['Result']))
+            self.assertEqual(self.calculator.sqr_root(round(float(row['Value 1']), 8)), round(float(row['Result']), 8))
+            self.assertEqual(self.calculator.result, round(float(row['Result']), 8))
 
     def test_subtract_method_calculator(self):
         CsvReader.clear_data(self.test_data)

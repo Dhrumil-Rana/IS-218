@@ -18,7 +18,7 @@ def multiplication(x, y):
 
 def division(x, y):
     a = float(y)/float(x)
-    return float(a)
+    return round(float(a), 9)
 
 
 def square(x):
@@ -28,7 +28,7 @@ def square(x):
 
 def square_root(x):
     a = math.sqrt(x)
-    return float(a)
+    return round(float(a), 8)
 
 
 class Calculator:
