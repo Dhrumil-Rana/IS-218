@@ -2,41 +2,40 @@ import math
 
 
 def addition(x, y):
-    a = x + y
+    a = int(x) + int(y)
     return a
 
 
 def subtraction(x, y):
-    a = x - y
-    return a
+    a = int(y) - int(x)
+    return int(a)
 
 
 def multiplication(x, y):
-    a = x*y
-    return a
+    a = float(x)*float(y)
+    return float(a)
 
 
 def division(x, y):
-    a = x/y
-    return a
+    a = float(y)/float(x)
+    return float(a)
 
 
 def square(x):
-    a = x*x
-    return a
+    a = float(x)*float(x)
+    return float(a)
 
 
 def square_root(x):
     a = math.sqrt(x)
-    return a
+    return float(a)
 
 
 class Calculator:
     result = 0
 
     def __init__(self):
-        x = 2 + 2
-        self.result = x
+        self.result = 0
         pass
 
     def add(self, a, b):
