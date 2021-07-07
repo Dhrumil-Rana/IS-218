@@ -1,34 +1,9 @@
-import math
-
-
-def addition(x, y):
-    a = int(x) + int(y)
-    return a
-
-
-def subtraction(x, y):
-    a = int(y) - int(x)
-    return int(a)
-
-
-def multiplication(x, y):
-    a = float(x)*float(y)
-    return float(a)
-
-
-def division(x, y):
-    a = float(y)/float(x)
-    return round(float(a), 9)
-
-
-def square(x):
-    a = float(x)*float(x)
-    return float(a)
-
-
-def square_root(x):
-    a = math.sqrt(x)
-    return round(float(a), 8)
+from subtraction import subtraction
+from addition import addition
+from multiplication import multiplication
+from division import division
+from square import square
+from square_root import square_root
 
 
 class Calculator:
