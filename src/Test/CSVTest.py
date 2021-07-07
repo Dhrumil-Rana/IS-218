@@ -1,5 +1,5 @@
 import unittest
-from CsvReader import CsvReader, ClassFactory
+from CsvReader.CsvReader import CsvReader, ClassFactory
 from pathlib import Path
 from pprint import pprint
 
