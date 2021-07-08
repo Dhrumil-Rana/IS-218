@@ -1,10 +1,10 @@
 import unittest
-from calculator.Calculator import Calculator
+from Calculator.Calculator import Calculator
 from CsvReader.CsvReader import CsvReader
 from pathlib import Path
 from pprint import pprint
 
-Folder_toOpen = Path("/src/Test/testdata/")
+Folder_toOpen = Path("./Test/testdata/")
 file_toOpen = Folder_toOpen / "Unit Test Addition.csv"
 file_for_sub = Folder_toOpen / "Unit Test Subtraction.csv"
 file_for_mul = Folder_toOpen / "Unit Test Multiplication.csv"
@@ -33,8 +33,8 @@ class MyTestCase1(unittest.TestCase):
         # print("Data for Addition")
         # pprint(test_data)
         # print()
-        # self.assertEqual(self.calculator.add(2, 2), 4)
-        # self.assertEqual(self.calculator.result, 4)
+        # self.assertEqual(self.Calculator.add(2, 2), 4)
+        # self.assertEqual(self.Calculator.result, 4)
 
     def test_multiple_method_calculator(self):
         CsvReader.clear_data(self.test_data)
@@ -86,8 +86,8 @@ class MyTestCase1(unittest.TestCase):
         # print("Data for Subtraction")
         # pprint(test_data)
         # print()
-        # self.assertEqual(self.calculator.subtract(8, 4), 4)
-        # self.assertEqual(self.calculator.result, 4)
+        # self.assertEqual(self.Calculator.subtract(8, 4), 4)
+        # self.assertEqual(self.Calculator.result, 4)
 
 
 if __name__ == '__main__':

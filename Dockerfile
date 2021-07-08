@@ -1,7 +1,7 @@
-FROM python:3
+FROM python:3.7
 
 ADD . .
 
 Run pip install -r requirements.txt
 
-CMD [ "python", "./src/Test/CalculatorTest.py" ]
+CMD [ "python", "./Test/CalculatorTest.py" ]
