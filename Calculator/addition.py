@@ -1,3 +1,2 @@
-def addition(x, y):
-    a = int(x) + int(y)
-    return a
+def addition(a, b):
+    return float(a) + float(b)

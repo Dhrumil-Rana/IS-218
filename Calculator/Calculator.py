@@ -1,9 +1,11 @@
-from subtraction import subtraction
-from addition import addition
-from multiplication import multiplication
-from division import division
-from square import square
-from square_root import square_root
+from Calculator.Subtraction import subtraction
+from Calculator.Addition import addition
+from Calculator.Division import division
+
+from Calculator.square_root import square_root
+
+from Calculator.multiplication import multiplication
+from Calculator.square import square
 
 
 class Calculator:
@@ -26,12 +28,15 @@ class Calculator:
 
     def div(self, a, b):
         self.result = division(a, b)
-        return self.result
+        return round(self.result, 9)
+
+    def sqr_root(self, a):
+        self.result = square_root(a)
+        return round(self.result, 8)
 
     def sqr(self, a):
         self.result = square(a)
         return self.result
 
-    def sqr_root(self, a):
-        self.result = square_root(a)
-        return self.result
+
+

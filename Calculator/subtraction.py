@@ -1,3 +1,5 @@
-def subtraction(x, y):
-    a = int(y) - int(x)
-    return int(a)
+def subtraction(a, b):
+    a = float(a)
+    b = float(b)
+    c = b - a
+    return c

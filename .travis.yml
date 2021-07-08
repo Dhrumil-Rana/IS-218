@@ -9,4 +9,5 @@ script:
 
 branches:
   only:
-    - Project2
+    - master
+    - development

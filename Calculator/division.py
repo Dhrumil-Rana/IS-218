@@ -1,4 +1,5 @@
+def division(a, b):
+    round(float(a), 8)
+    round(float(b), 8)
 
-def division(x, y):
-    a = float(y)/float(x)
-    return round(float(a), 9)
+    return float(b) / float(a)
