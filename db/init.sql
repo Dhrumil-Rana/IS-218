@@ -10,6 +10,8 @@ CREATE TABLE IF NOT EXISTS tblCitiesImport (
     `fldCapitalStatus` VARCHAR(7) CHARACTER SET utf8,
     `fldPopulation` INT
 );
+
+
 INSERT INTO tblCitiesImport VALUES
     ('Tokyo',35.685,139.7514,'Japan','JPN','primary',35676000),
     ('New York',40.6943,-73.9249,'United States','USA','NA',19354922),
