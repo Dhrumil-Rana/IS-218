@@ -100,18 +100,34 @@ def api_retrieve(person_Index) -> str:
 
 @app.route('/api/v1/people/', methods=['POST'])
 def api_add() -> str:
+    content = request.json
+    cursor = mysql.get_db().cursor()
+    inputData = ( content['Height_Inches'], content['Weight_Pounds'] )
+    sql_insert_query = """INSERT INTO hw_200 (Height_Inches,Weight_Pounds) VALUES (%s, %s)"""
+    cursor.execute(sql_insert_query, inputData)
+    mysql.get_db().commit()
     resp = Response(status=201, mimetype='application/json')
     return resp
 
 
 @app.route('/api/v1/people/<int:person_Index>', methods=['PUT'])
-def api_edit(city_id) -> str:
+def api_edit(person_Index) -> str:
+    cursor = mysql.get_db().cursor()
+    content = request.json
+    inputData = (content['Height_Inches'], content['Weight_Pounds'], person_Index)
+    sql_update_query = """UPDATE hw_200 t SET t.Height_Inches = %s, t.Weight_Pounds = %s WHERE t.`Index` = %s """
+    cursor.execute(sql_update_query, inputData)
+    mysql.get_db().commit()
     resp = Response(status=201, mimetype='application/json')
     return resp
 
 
 @app.route('/api/people/<int:person_Index>', methods=['DELETE'])
 def api_delete(person_Index) -> str:
+    cursor = mysql.get_db().cursor()
+    sql_delete_query = """DELETE FROM hw_200 WHERE `Index` = %s """
+    cursor.execute(sql_delete_query, person_Index)
+    mysql.get_db().commit()
     resp = Response(status=210, mimetype='application/json')
     return resp
 
