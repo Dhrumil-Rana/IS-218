@@ -47,7 +47,8 @@ def form_edit_get(person_Index):
 def form_update_post(person_Index):
     cursor = mysql.get_db().cursor()
     inputData = (request.form.get('Height_Inches'), request.form.get('Weight_Pounds'), person_Index)
-    sql_update_query = """UPDATE hw_200 t SET t.Height_Inches = %s, t.Weight_Pounds = %s WHERE t.Index = %s """
+    print(inputData)
+    sql_update_query = """UPDATE hw_200 t SET t.Height_Inches = %s, t.Weight_Pounds = %s WHERE t.Index = %s"""
     cursor.execute(sql_update_query, inputData)
     mysql.get_db().commit()
     return redirect("/", code=302)
