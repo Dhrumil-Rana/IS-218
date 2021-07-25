@@ -1,13 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
-<form action="/edit/{{person.id}}" method="post">
+<form action="/edit/{{person.Index}}" method="post">
     <div class="row">
         <div class="col">
-            <label for="Height_Inches">City Name</label>
+            <label for="Height_Inches">Height Inches</label>
             <input id="Height_Inches" type="text" class="form-control" placeholder="Height Inches" name="Height Inches" value="{{person.Height_Inches}}">
         </div>
         <div class="col">
-            <label for="Weight_Pounds">City Abbreviation</label>
+            <label for="Weight_Pounds">Weight Pounds</label>
             <input id="Weight_Pounds" type="text" class="form-control" placeholder="Weight Pounds"
                    name="Weight Pounds" value="{{person.Weight_Pounds}}">
         </div>

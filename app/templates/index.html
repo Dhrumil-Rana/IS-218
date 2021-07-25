@@ -11,7 +11,8 @@
     <tbody>
     {% for person in people %}
     <tr>
-        <td><a href="view/{{person.id}}">{{ person.Height_Inches }}</a></td>
+        <td><a href="view/{{person.Index}}">{{ person.Index }}</a></td>
+        <td>{{ person.Height_Inches }}</td>
         <td>{{ person.Weight_Pounds }}</td>
     </tr>
     {% endfor %}
