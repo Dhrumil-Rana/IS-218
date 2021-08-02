@@ -7,8 +7,7 @@ db = SQLAlchemy()
 def init_app():
     """Construct the core application."""
     app = Flask(__name__, template_folder="templates")
-    app.config.from_object('config.Config')
-    db.init_app(app)
+    app.config.from_pyfile('config.py')
 
     with app.app_context():
         from . import routes  # Import routes
