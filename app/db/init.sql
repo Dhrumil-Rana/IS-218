@@ -7,6 +7,13 @@ CREATE TABLE IF NOT EXISTS hw_200 (
     `Weight_Pounds` NUMERIC(6, 3)
 );
 
+CREATE TABLE IF NOT EXISTS User (
+    `number` INT AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(20),
+    `password` VARCHAR(15),
+    `email` VARCHAR(20),
+);
+
 INSERT INTO hw_200 VALUES
     (1, 65.78, 112.99),
     (2, 71.52, 136.49),
