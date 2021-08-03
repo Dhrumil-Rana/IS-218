@@ -1,20 +1,13 @@
 from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import (
-    StringField,
-    TextField,
-    TextAreaField,
-    SubmitField,
-    PasswordField,
     DateField,
-    SelectField
+    PasswordField,
+    SelectField,
+    StringField,
+    SubmitField,
+    TextAreaField, TextField,
 )
-from wtforms.validators import (
-    DataRequired,
-    Email,
-    EqualTo,
-    Length,
-    URL
-)
+from wtforms.validators import URL, DataRequired, Email, EqualTo, Length
 
 class ContactForm(FlaskForm):
     """Contact form."""

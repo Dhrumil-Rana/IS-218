@@ -1,16 +1,16 @@
 from werkzeug.security import generate_password_hash
-from app import app
-from flask import render_template, url_for
+from flask import render_template, url_for, Blueprint
 import mysql.connector
 import simplejson as json
-from flask import Flask, Response, request, redirect
-from forms import ContactForm, SignupForm
+from flask import Response, request, redirect
+from .forms import ContactForm, SignupForm
+from pymysql.cursors import DictCursor
+from flaskext.mysql import MySQL
 
-app = Flask(__name__, instance_relative_config=False)
-app.config.from_object('config.Config')
+mysql = MySQL(cursorclass=DictCursor)
+views = Blueprint('routes', __name__)
 
-
-@app.route("/contact", methods=["GET", "POST"])
+@views.route("/contact", methods=["GET", "POST"])
 def contact():
     """Standard `contact` form."""
     form = ContactForm()
@@ -19,45 +19,27 @@ def contact():
     return render_template("contact.jinja2", form=form, template="form-template")
 
 
-@app.route('/signup', methods=['GET', 'POST'])
+@views.route('/signup', methods=['GET', 'POST'])
 def signup_page():
-    """User sign-up page."""
-    signup_form = SignupForm(request.form)
-    # POST: Sign user in
-    if request.method == 'POST':
-        if signup_form.validate():
-            # Get Form Fields
-            name = request.form.get('name')
-            email = request.form.get('email')
-            password = request.form.get('password')
-            website = request.form.get('website')
-            existing_user = User.query.filter_by(email=email).first()
-            if existing_user is None:
-                user = User(
-                    name=name,
-                    email=email,
-                    password=generate_password_hash(
-                        password,
-                        method='sha256'
-                    ),
-                )
-                db.session.add(user)
-                db.session.commit()
-                login_user(user)
-                return redirect(url_for('index.html'))
-            flash('A user exists with that email address.')
-            return redirect(url_for('signup_page'))
-    # GET: Serve Sign-up page
+    form = SignupForm()
+    if form.validate_on_submit():
+        return redirect(url_for("success"))
     return render_template(
-        '/signup.html',
-        title='Create an Account | Flask-Login Tutorial.',
-        form=SignupForm(),
-        template='signup-page',
-        body="Sign up for a user account."
+        "signup.jinja2",
+        form=form,
+        template="form-template",
+        title="Signup Form"
     )
 
+@views.route("/success", methods=["GET", "POST"])
+def success():
+    """Generic success page upon form submission."""
+    return render_template(
+        "success.jinja2",
+        template="success-template"
+    )
 
-@app.route('/', methods=['GET'])
+@views.route('/', methods=['GET'])
 def index():
     user = {'username': 'Dhrumil'}
     cursor = mysql.get_db().cursor()
@@ -66,7 +48,7 @@ def index():
     return render_template('index.html', title='Home', user=user, people=result)
 
 
-@app.route('/view/<int:person_Index>', methods=['GET'])
+@views.route('/view/<int:person_Index>', methods=['GET'])
 def record_view(person_Index):
     cursor = mysql.get_db().cursor()
     cursor.execute('SELECT * FROM hw_200 WHERE `Index`=%s', person_Index)
@@ -74,7 +56,7 @@ def record_view(person_Index):
     return render_template('view.html', title='View Form', person=result[0])
 
 
-@app.route('/edit/<int:person_Index>', methods=['GET'])
+@views.route('/edit/<int:person_Index>', methods=['GET'])
 def form_edit_get(person_Index):
     cursor = mysql.get_db().cursor()
     cursor.execute('SELECT * FROM hw_200 WHERE `Index`=%s', person_Index)
@@ -82,7 +64,7 @@ def form_edit_get(person_Index):
     return render_template('edit.html', title='Edit Form', person=result[0])
 
 
-@app.route('/edit/<int:person_Index>', methods=['POST'])
+@views.route('/edit/<int:person_Index>', methods=['POST'])
 def form_update_post(person_Index):
     cursor = mysql.get_db().cursor()
     inputData = (request.form.get('Height_Inches'), request.form.get('Weight_Pounds'), person_Index)
@@ -93,12 +75,12 @@ def form_update_post(person_Index):
     return redirect("/", code=302)
 
 
-@app.route('/people/new', methods=['GET'])
+@views.route('/people/new', methods=['GET'])
 def form_insert_get():
     return render_template('new.html', title='New person Form')
 
 
-@app.route('/people/new', methods=['POST'])
+@views.route('/people/new', methods=['POST'])
 def form_insert_post():
     cursor = mysql.get_db().cursor()
     inputData = (request.form.get('Height_Inches'), request.form.get('Weight_Pounds'))
@@ -108,7 +90,7 @@ def form_insert_post():
     return redirect("/", code=302)
 
 
-@app.route('/delete/<int:person_Index>', methods=['POST'])
+@views.route('/delete/<int:person_Index>', methods=['POST'])
 def form_delete_post(person_Index):
     cursor = mysql.get_db().cursor()
     sql_delete_query = """DELETE FROM hw_200 WHERE `Index` = %s """
@@ -117,7 +99,7 @@ def form_delete_post(person_Index):
     return redirect("/", code=302)
 
 
-@app.route('/api/v1/people', methods=['GET'])
+@views.route('/api/v1/people', methods=['GET'])
 def api_browse() -> str:
     cursor = mysql.get_db().cursor()
     cursor.execute('SELECT * FROM hw_200')
@@ -127,7 +109,7 @@ def api_browse() -> str:
     return resp
 
 
-@app.route('/api/v1/people/<int:person_Index>', methods=['GET'])
+@views.route('/api/v1/people/<int:person_Index>', methods=['GET'])
 def api_retrieve(person_Index) -> str:
     cursor = mysql.get_db().cursor()
     cursor.execute('SELECT * FROM hw_200 WHERE `Index`=%s', person_Index)
@@ -137,7 +119,7 @@ def api_retrieve(person_Index) -> str:
     return resp
 
 
-@app.route('/api/v1/people/', methods=['POST'])
+@views.route('/api/v1/people/', methods=['POST'])
 def api_add() -> str:
     content = request.json
     cursor = mysql.get_db().cursor()
@@ -149,7 +131,7 @@ def api_add() -> str:
     return resp
 
 
-@app.route('/api/v1/people/<int:person_Index>', methods=['PUT'])
+@views.route('/api/v1/people/<int:person_Index>', methods=['PUT'])
 def api_edit(person_Index) -> str:
     cursor = mysql.get_db().cursor()
     content = request.json
@@ -161,7 +143,7 @@ def api_edit(person_Index) -> str:
     return resp
 
 
-@app.route('/api/people/<int:person_Index>', methods=['DELETE'])
+@views.route('/api/people/<int:person_Index>', methods=['DELETE'])
 def api_delete(person_Index) -> str:
     cursor = mysql.get_db().cursor()
     sql_delete_query = """DELETE FROM hw_200 WHERE `Index` = %s """

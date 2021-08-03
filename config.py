@@ -7,7 +7,6 @@ load_dotenv(path.join(basedir, '.env'))
 
 class Config:
     """Set Flask config variables."""
-
     FLASK_ENV = 'development'
     TESTING = True
     SECRET_KEY = environ.get('SECRET_KEY')
@@ -15,5 +14,6 @@ class Config:
     TEMPLATES_FOLDER = 'templates'
 
     # Database
-    SQLALCHEMY_DATABASE_URI = environ.get('SQLALCHEMY_DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = 'mysql://root:root@localhost/homework'
+    SQLALCHEMY_ECHO = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
