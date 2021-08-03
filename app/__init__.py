@@ -1,16 +1,24 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_redis import FlaskRedis
 
 db = SQLAlchemy()
-
+r = FlaskRedis()
 
 def init_app():
-    """Construct the core application."""
-    app = Flask(__name__, template_folder="templates")
-    app.config.from_pyfile('config.py')
+    """Initialize the core application."""
+    app = Flask(__name__, instance_relative_config=False)
+    app.config.from_object('config.Config')
+
+    # Initialize Plugins
+    db.init_app(app)
+    r.init_app(app)
 
     with app.app_context():
-        from . import routes  # Import routes
-        db.create_all()  # Create sql tables for our data models
+        # Include our Routes
+        from . import routes
+        # Register Blueprints
+        app.register_blueprint(auth.auth_bp)
+        app.register_blueprint(admin.admin_bp)
 
         return app
